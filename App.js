@@ -6,22 +6,33 @@ import {
   StyleSheet,
   FlatList,
   Button,
+  TextInput,
 } from "react-native";
 
 let id = 0;
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
+  const [inputData, setInputData] = useState("");
 
-  const addTask = () =>
-    setTasks([...tasks, { id: id++, description: `task ${id}` }]);
+  const addTask = (inputData) => {
+    setTasks([...tasks, { id: id++, description: inputData }]);
+    setInputData("");
+  };
 
-  deleteTask = (id) => setTasks(tasks.filter((task) => task.id !== id));
+  const deleteTask = (id) => setTasks(tasks.filter((task) => task.id !== id));
 
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.text}> To-do lists </Text>
-      <Button title="Add Task" onPress={addTask} />
+      <TextInput
+        style={styles.input}
+        value={inputData}
+        onChangeText={setInputData}
+        onSubmitEditing={() => addTask(inputData)}
+        autoFocus
+      />
+      <Button title="Add" onPress={() => addTask(inputData)} />
       <Button title="console tasks" onPress={() => console.log(tasks)} />
       <FlatList
         data={tasks}
@@ -42,11 +53,17 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontSize: 30,
+    fontSize: 20,
     // borderWidth: 1,
     padding: 10,
     marginLeft: 10,
     height: 50,
+  },
+  input: {
+    borderWidth: 1,
+    height: 40,
+    padding: 10,
+    margin: 10,
   },
 });
 
