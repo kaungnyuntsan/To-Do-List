@@ -23,12 +23,19 @@ const App = () => {
 
   const deleteTask = (id) => setTasks(tasks.filter((task) => task.id !== id));
 
-  // const toggleSwitch = (id) => {
-  //   const currentTask = tasks.filter((task) => task.id === id)[0];
-  //   currentTask.isDone = !currentTask.isDone;
-  //   // console.log(currentTask);
-  //   setTasks([...tasks, currentTask]);
-  // };
+  const toggleSwitch = (id) => {
+    setTasks(
+    tasks.map(task => {
+      if(task.id === id) {
+        return({
+          ...task,
+          isDone : !task.isDone
+        })
+      } else {
+        return task
+      }
+    }))
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -36,7 +43,7 @@ const App = () => {
       <Text style={styles.font}> {`Total todo lists : ${tasks.length}`}</Text>
       <Text style={styles.font}>
         {" "}
-        {`Remaining todo lists : ${tasks.length}`}
+        {`Remaining todo lists : ${tasks.filter(task => task.isDone !== true).length}`}
       </Text>
 
       <TextInput
@@ -68,6 +75,7 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    margin : 10,
   },
 
   text: {
