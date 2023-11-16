@@ -7,6 +7,7 @@ import {
   FlatList,
   Button,
   TextInput,
+  Switch,
 } from "react-native";
 
 let id = 0;
@@ -16,15 +17,28 @@ const App = () => {
   const [inputData, setInputData] = useState("");
 
   const addTask = (inputData) => {
-    setTasks([...tasks, { id: id++, description: inputData }]);
+    setTasks([...tasks, { id: id++, description: inputData, isDone: false }]);
     setInputData("");
   };
 
   const deleteTask = (id) => setTasks(tasks.filter((task) => task.id !== id));
 
+  // const toggleSwitch = (id) => {
+  //   const currentTask = tasks.filter((task) => task.id === id)[0];
+  //   currentTask.isDone = !currentTask.isDone;
+  //   // console.log(currentTask);
+  //   setTasks([...tasks, currentTask]);
+  // };
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.text}> To-do lists </Text>
+      <Text style={styles.font}> {`Total todo lists : ${tasks.length}`}</Text>
+      <Text style={styles.font}>
+        {" "}
+        {`Remaining todo lists : ${tasks.length}`}
+      </Text>
+
       <TextInput
         style={styles.input}
         value={inputData}
@@ -38,6 +52,10 @@ const App = () => {
         data={tasks}
         renderItem={({ item }) => (
           <View style={{ flexDirection: "row" }}>
+            <Switch
+              value={item.isDone}
+              onValueChange={() => toggleSwitch(item.id)}
+            />
             <Text style={styles.text}> {item.description} </Text>
             <Button title="delete" onPress={() => deleteTask(item.id)} />
           </View>
@@ -58,6 +76,9 @@ const styles = StyleSheet.create({
     padding: 10,
     marginLeft: 10,
     height: 50,
+  },
+  font: {
+    fontSize: 15,
   },
   input: {
     borderWidth: 1,
