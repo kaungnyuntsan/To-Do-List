@@ -54,7 +54,7 @@ const App = () => {
         autoFocus
       />
       <Button title="Add" onPress={() => addTask(inputData)} />
-      <Button title="console tasks" onPress={() => console.log(tasks)} />
+      {/* <Button title="console tasks" onPress={() => console.log(tasks)} /> */}
       <FlatList
         data={tasks}
         renderItem={({ item }) => (
@@ -63,7 +63,7 @@ const App = () => {
               value={item.isDone}
               onValueChange={() => toggleSwitch(item.id)}
             />
-            <Text style={styles.text}> {item.description} </Text>
+            <Text style={[styles.text, item.isDone ? styles.textstrike : null]}> {item.description} </Text>
             <Button title="delete" onPress={() => deleteTask(item.id)} />
           </View>
         )}
@@ -84,6 +84,9 @@ const styles = StyleSheet.create({
     padding: 10,
     marginLeft: 10,
     height: 50,
+  },
+  textstrike :  {
+    textDecorationLine : 'line-through'
   },
   font: {
     fontSize: 15,
