@@ -9,6 +9,7 @@ import {
   TextInput,
   Switch,
 } from "react-native";
+import Todolists from "./Todolists"
 
 let id = 0;
 
@@ -21,21 +22,21 @@ const App = () => {
     setInputData("");
   };
 
-  const deleteTask = (id) => setTasks(tasks.filter((task) => task.id !== id));
+  // const deleteTask = (id) => setTasks(tasks.filter((task) => task.id !== id));
 
-  const toggleSwitch = (id) => {
-    setTasks(
-    tasks.map(task => {
-      if(task.id === id) {
-        return({
-          ...task,
-          isDone : !task.isDone
-        })
-      } else {
-        return task
-      }
-    }))
-  };
+  // const toggleSwitch = (id) => {
+  //   setTasks(
+  //   tasks.map(task => {
+  //     if(task.id === id) {
+  //       return({
+  //         ...task,
+  //         isDone : !task.isDone
+  //       })
+  //     } else {
+  //       return task
+  //     }
+  //   }))
+  // };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -61,7 +62,8 @@ const App = () => {
         {/* <Button title="console tasks" onPress={() => console.log(tasks)} /> */}
       </View>
 
-      <FlatList
+      <Todolists data={tasks} />
+      {/* <FlatList
         data={tasks}
         renderItem={({ item }) => (
           <View style={styles.listContainer}>
@@ -73,7 +75,7 @@ const App = () => {
             <Button title="delete" onPress={() => deleteTask(item.id)} />
           </View>
         )}
-      />
+      /> */}
     </SafeAreaView>
   );
 };
