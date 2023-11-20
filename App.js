@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { SafeAreaView, StyleSheet } from "react-native";
-import { Todolists } from "./Todolists";
-import { Inputbox } from "./Inputbox";
-import { Title } from "./Title";
+import { Todolists } from "./features/Todolists";
+import { Inputbox } from "./features/Inputbox";
+import { Title } from "./features/Title";
 
 let id = 0;
 
