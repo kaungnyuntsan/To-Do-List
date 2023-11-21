@@ -5,8 +5,10 @@ const Inputbox = ({ addTask }) => {
   const [inputData, setInputData] = useState("");
 
   const submitData = (inputData) => {
-    addTask(inputData);
-    setInputData("");
+    if (inputData) {
+      addTask(inputData);
+      setInputData("");
+    }
   };
 
   return (
@@ -18,7 +20,11 @@ const Inputbox = ({ addTask }) => {
         onSubmitEditing={() => submitData(inputData)}
         autoFocus
       />
-      <Button title="Add" onPress={() => submitData(inputData)} />
+      <Button
+        title="Add"
+        onPress={() => submitData(inputData)}
+        disabled={!inputData}
+      />
       {/* <Button title="console tasks" onPress={() => console.log(tasks)} /> */}
     </View>
   );
