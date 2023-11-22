@@ -8,8 +8,8 @@ const Todolists = ({ tasks, toggleSwitch, deleteTask }) => {
       renderItem={({ item }) => (
         <View style={styles.listContainer}>
           <Switch
-            value={item.isDone}
-            onValueChange={() => toggleSwitch(item.id)}
+            value={Boolean(item.isDone)}
+            onValueChange={() => toggleSwitch(item.id, item.isDone)}
           />
           <Text
             style={[

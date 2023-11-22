@@ -12,7 +12,7 @@ const Title = ({ tasks }) => {
       <Text style={styles.textFont}>
         {" "}
         {`Remaining todo lists : ${
-          tasks.filter((task) => task.isDone !== true).length
+          tasks.filter((task) => Boolean(task.isDone) !== true).length
         }`}
       </Text>
     </View>
