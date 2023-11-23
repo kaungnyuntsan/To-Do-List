@@ -18,7 +18,6 @@ const Inputbox = ({ addTask }) => {
         value={inputData}
         onChangeText={setInputData}
         onSubmitEditing={() => submitData(inputData)}
-        autoFocus
       />
       <Button
         title="Add"
