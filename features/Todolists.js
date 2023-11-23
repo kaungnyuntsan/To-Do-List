@@ -28,23 +28,6 @@ const Todolists = ({ tasks, toggleSwitch, deleteTask }) => {
   );
 };
 
-// const toggleSwitch = (id) => {
-//   setTasks(
-//     tasks.map((task) => {
-//       if (task.id === id) {
-//         return {
-//           ...task,
-//           isDone: !task.isDone,
-//         };
-//       } else {
-//         return task;
-//       }
-//     })
-//   );
-// };
-
-// const deleteTask = (id) => setTasks(tasks.filter((task) => task.id !== id));
-
 const styles = StyleSheet.create({
   listContainer: {
     flexDirection: "row",
@@ -52,7 +35,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
-    // fontSize: 20,
     // borderWidth: 1,
     padding: 10,
     marginLeft: 10,

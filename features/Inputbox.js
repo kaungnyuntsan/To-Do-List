@@ -25,7 +25,6 @@ const Inputbox = ({ addTask }) => {
         onPress={() => submitData(inputData)}
         disabled={!inputData}
       />
-      {/* <Button title="console tasks" onPress={() => console.log(tasks)} /> */}
     </View>
   );
 };

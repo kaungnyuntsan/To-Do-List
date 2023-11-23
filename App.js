@@ -1,22 +1,14 @@
 import React, { useState, useEffect } from "react";
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  Button,
-  ScrollView,
-} from "react-native";
+import { SafeAreaView, StyleSheet, Text, Button } from "react-native";
 import { Todolists } from "./features/Todolists";
 import { Inputbox } from "./features/Inputbox";
 import { Title } from "./features/Title";
+import { Loading } from "./features/Loading";
 import * as SQLite from "expo-sqlite";
-
-let id = 0;
 
 const App = () => {
   const db = SQLite.openDatabase("todolist.db");
   const [tasks, setTasks] = useState([]);
-  // const [dbtasks, setDbtasks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -30,7 +22,6 @@ const App = () => {
       tx.executeSql(
         "SELECT * FROM todolist",
         null,
-        // (txObj, resultSet) => setDbtasks(resultSet.rows._array),
         (txObj, resultSet) => setTasks(resultSet.rows._array),
         (txObj, error) => console.log(error)
       );
@@ -39,77 +30,25 @@ const App = () => {
     setIsLoading(false);
   }, []);
 
-  // const selectdb = () => {
-  //   db.transaction((tx) => {
-  //     tx.executeSql(
-  //       "SELECT * FROM todolist",
-  //       null,
-  //       (txObj, resultSet) => console.log(resultSet.rows._array),
-  //       (txObj, error) => console.log(error)
-  //     );
-  //   });
-  // };
-
-  // const insertdb = () => {
-  //   db.transaction((tx) => {
-  //     tx.executeSql(
-  //       "INSERT INTO todolist (description, isDone) VALUES (?,?) ",
-  //       ["test2", false],
-  //       (txObj, resultSet) => console.log(resultSet),
-  //       (txObj, error) => console.log(error)
-  //     );
-  //   });
-  // };
-
-  // const updatedb = () => {
-  //   db.transaction((tx) => {
-  //     tx.executeSql(
-  //       "UPDATE todolist SET isDone = ? WHERE id = ?",
-  //       [1, 2],
-  //       (txObj, resultSet) => console.log(resultSet),
-  //       (txObj, error) => console.log(error)
-  //     );
-  //   });
-  // };
-
-  // const deletedb = () => {
-  //   db.transaction((tx) => {
-  //     tx.executeSql(
-  //       "DELETE FROM todolist WHERE id = ?",
-  //       [1],
-  //       (txObj, resultSet) => console.log(resultSet),
-  //       (txObj, error) => console.log(error)
-  //     );
-  //   });
-  // };
-
-  // const droptb = () => {
-  //   db.transaction((tx) => {
-  //     tx.executeSql(
-  //       "DROP TABLE todolist",
-  //       null,
-  //       (txObj, resultSet) => console.log(resultSet.rows._array),
-  //       (txObj, error) => console.log(error)
-  //     );
-  //   });
-  // };
-
   const addTask = (inputData) => {
+    const def_false = false;
     db.transaction((tx) => {
       tx.executeSql(
         "INSERT INTO todolist (description, isDone) VALUES (?,?) ",
-        [inputData, false],
+        [inputData, def_false],
         (txObj, resultSet) => {
-          console.log(resultSet);
           setTasks([
             ...tasks,
-            { id: resultSet.insertId, description: inputData, isDone: false },
+            {
+              id: resultSet.insertId,
+              description: inputData,
+              isDone: def_false,
+            },
           ]);
         },
         (txObj, error) => console.log(error)
       );
     });
-    // setTasks([...tasks, { id: id++, description: inputData, isDone: false }]);
   };
 
   const deleteTask = (id) => {
@@ -118,13 +57,11 @@ const App = () => {
         "DELETE FROM todolist WHERE id = ?",
         [id],
         (txObj, resultSet) => {
-          console.log(resultSet);
           setTasks(tasks.filter((task) => task.id !== id));
         },
         (txObj, error) => console.log(error)
       );
     });
-    // setTasks(tasks.filter((task) => task.id !== id));
   };
 
   const toggleSwitch = (id, isDone) => {
@@ -133,7 +70,6 @@ const App = () => {
         "UPDATE todolist SET isDone = ? WHERE id = ?",
         [!isDone, id],
         (txObj, resultSet) => {
-          console.log(resultSet);
           setTasks(
             tasks.map((task) => {
               if (task.id === id) {
@@ -150,60 +86,14 @@ const App = () => {
         (txObj, error) => console.log(error)
       );
     });
-
-    // setTasks(
-    //   tasks.map((task) => {
-    //     if (task.id === id) {
-    //       return {
-    //         ...task,
-    //         isDone: !task.isDone,
-    //       };
-    //     } else {
-    //       return task;
-    //     }
-    //   })
-    // );
   };
 
-  if (isLoading) {
-    return (
-      <SafeAreaView
-        style={[
-          styles.container,
-          { alignItems: "center", justifyContent: "center" },
-        ]}
-      >
-        <Text
-          style={{
-            fontSize: 30,
-          }}
-        >
-          {" "}
-          Loading tasks...{" "}
-        </Text>
-      </SafeAreaView>
-    );
-  }
+  if (isLoading) return <Loading />;
 
   return (
     <SafeAreaView style={styles.container}>
       <Title tasks={tasks} />
       <Inputbox addTask={addTask} />
-      {/* <Button title="selectdb" onPress={selectdb} />
-      <Button title="insertdb" onPress={insertdb} />
-      <Button title="updatedb" onPress={updatedb} />
-      <Button title="deletedb" onPress={deletedb} /> */}
-      {/* <Button title="droptb" onPress={droptb} /> */}
-      {/* <Button title="console dbtask" onPress={() => console.log(dbtasks)} /> */}
-      {/* <Button title="console tasks" onPress={() => console.log(tasks)} /> */}
-      {/* <ScrollView>
-        {dbtasks.map((task) => (
-          <Text key={task.id}>
-            {" "}
-            {task.description} {task.isDone}
-          </Text>
-        ))}
-      </ScrollView> */}
       <Todolists
         tasks={tasks}
         toggleSwitch={toggleSwitch}
