@@ -7,11 +7,9 @@ To-Do-List App (React Native Expo)
 For iOS demo guide
 
 - Download [Expo Go App](https://apps.apple.com/us/app/expo-go/id982107779)
-
 * Scan below QR code with camera app 
-![Expo QR code](./assets/todolist_expo.png)
-
 - Click "`Open in Expo Go`" link on camera
+![Expo QR code](./assets/todolist_expo.png)
 
 
 <br/>
