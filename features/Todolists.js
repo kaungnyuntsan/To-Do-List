@@ -1,5 +1,13 @@
 import React from "react";
-import { FlatList, View, Text, Button, StyleSheet, Switch } from "react-native";
+import {
+  FlatList,
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  Switch,
+  ScrollView,
+} from "react-native";
 
 const Todolists = ({ tasks, toggleSwitch, deleteTask }) => {
   return (
@@ -11,16 +19,17 @@ const Todolists = ({ tasks, toggleSwitch, deleteTask }) => {
             value={Boolean(item.isDone)}
             onValueChange={() => toggleSwitch(item.id, item.isDone)}
           />
-          <Text
-            style={[
-              styles.text,
-              styles.textFont,
-              item.isDone ? styles.textstrike : null,
-            ]}
-          >
-            {" "}
-            {item.description}{" "}
-          </Text>
+          <ScrollView horizontal={true}>
+            <Text
+              style={[
+                styles.text,
+                styles.textFont,
+                item.isDone ? styles.textstrike : null,
+              ]}
+            >
+              {item.description}
+            </Text>
+          </ScrollView>
           <Button title="delete" onPress={() => deleteTask(item.id)} />
         </View>
       )}
@@ -30,6 +39,7 @@ const Todolists = ({ tasks, toggleSwitch, deleteTask }) => {
 
 const styles = StyleSheet.create({
   listContainer: {
+    flex: 1,
     flexDirection: "row",
     // borderWidth: 1,
     alignItems: "center",
