@@ -12,12 +12,14 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // database create
     db.transaction((tx) => {
       tx.executeSql(
         "CREATE TABLE IF NOT EXISTS todolist (id INTEGER PRIMARY KEY AUTOINCREMENT, description TEXT, isDone INTEGER)"
       );
     });
 
+    // query tasks from database
     db.transaction((tx) => {
       tx.executeSql(
         "SELECT * FROM todolist",
@@ -30,6 +32,7 @@ const App = () => {
     setIsLoading(false);
   }, []);
 
+  // add task into database & UI state
   const addTask = (inputData) => {
     const def_false = false;
     db.transaction((tx) => {
@@ -51,6 +54,7 @@ const App = () => {
     });
   };
 
+  // delete task into database & UI state
   const deleteTask = (id) => {
     db.transaction((tx) => {
       tx.executeSql(
@@ -64,6 +68,7 @@ const App = () => {
     });
   };
 
+  // update database & UI state
   const toggleSwitch = (id, isDone) => {
     db.transaction((tx) => {
       tx.executeSql(
@@ -88,6 +93,7 @@ const App = () => {
     });
   };
 
+  // loading screen
   if (isLoading) return <Loading />;
 
   return (
