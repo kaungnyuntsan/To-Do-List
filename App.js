@@ -5,6 +5,11 @@ import { Inputbox } from "./features/Inputbox";
 import { Title } from "./features/Title";
 import { Loading } from "./features/Loading";
 import * as SQLite from "expo-sqlite";
+import { addTaskDb } from "./features/addTaskDb";
+import { deleteTaskDb } from "./features/deleteTaskDb";
+import { switchTaskDb } from "./features/switchTaskDb";
+import { createDb } from "./features/createDb";
+import { queryDb } from "./features/queryDb";
 
 const App = () => {
   const db = SQLite.openDatabase("todolist.db");
@@ -13,84 +18,28 @@ const App = () => {
 
   useEffect(() => {
     // database create
-    db.transaction((tx) => {
-      tx.executeSql(
-        "CREATE TABLE IF NOT EXISTS todolist (id INTEGER PRIMARY KEY AUTOINCREMENT, description TEXT, isDone INTEGER)"
-      );
-    });
+    createDb(db);
 
     // query tasks from database
-    db.transaction((tx) => {
-      tx.executeSql(
-        "SELECT * FROM todolist",
-        null,
-        (txObj, resultSet) => setTasks(resultSet.rows._array),
-        (txObj, error) => console.log(error)
-      );
-    });
+    queryDb(db, setTasks);
 
+    // remove loading screen
     setIsLoading(false);
   }, []);
 
   // add task into database & UI state
   const addTask = (inputData) => {
-    const def_false = false;
-    db.transaction((tx) => {
-      tx.executeSql(
-        "INSERT INTO todolist (description, isDone) VALUES (?,?) ",
-        [inputData, def_false],
-        (txObj, resultSet) => {
-          setTasks([
-            ...tasks,
-            {
-              id: resultSet.insertId,
-              description: inputData,
-              isDone: def_false,
-            },
-          ]);
-        },
-        (txObj, error) => console.log(error)
-      );
-    });
+    addTaskDb(db, inputData, setTasks, tasks);
   };
 
   // delete task into database & UI state
   const deleteTask = (id) => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        "DELETE FROM todolist WHERE id = ?",
-        [id],
-        (txObj, resultSet) => {
-          setTasks(tasks.filter((task) => task.id !== id));
-        },
-        (txObj, error) => console.log(error)
-      );
-    });
+    deleteTaskDb(db, id, setTasks, tasks);
   };
 
   // update database & UI state
   const toggleSwitch = (id, isDone) => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        "UPDATE todolist SET isDone = ? WHERE id = ?",
-        [!isDone, id],
-        (txObj, resultSet) => {
-          setTasks(
-            tasks.map((task) => {
-              if (task.id === id) {
-                return {
-                  ...task,
-                  isDone: !task.isDone,
-                };
-              } else {
-                return task;
-              }
-            })
-          );
-        },
-        (txObj, error) => console.log(error)
-      );
-    });
+    switchTaskDb(db, id, isDone, setTasks, tasks);
   };
 
   // loading screen
