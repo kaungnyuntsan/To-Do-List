@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "To-Do-List",
-    "slug": "To-Do-List",
+    "name": "To-Do-List, Strike & Delete",
+    "slug": "To-Do-List-Strike-eDelete",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -15,7 +15,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "ToDoListStrikeDelete"
     },
     "android": {
       "adaptiveIcon": {
@@ -29,7 +30,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "e4a1ff4b-f0d5-4126-8a4f-3a686747aaba"
+        "projectId": "5ece44d4-9a61-4260-94a7-ad615915d3ff"
       }
     }
   }
