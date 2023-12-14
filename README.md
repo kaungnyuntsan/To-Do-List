@@ -12,4 +12,4 @@ To-Do-List App (React Native Expo)
 
 ![Demo](https://user-images.githubusercontent.com/150369058/283984372-0b0337ad-ff5c-4834-8f19-2fa2a63c684b.gif)
 
-[Download](https://expo.dev/artifacts/eas/k2b7VRZFKZkZcfdZr9o2LQ.apk) Android App Demo.
+[![Download android app logo](./assets/download-for-android.jpeg)](https://expo.dev/artifacts/eas/k2b7VRZFKZkZcfdZr9o2LQ.apk)
